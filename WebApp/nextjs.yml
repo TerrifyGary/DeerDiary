@@ -38,16 +38,19 @@ jobs:
             echo "manager=yarn" >> $GITHUB_OUTPUT
             echo "command=install" >> $GITHUB_OUTPUT
             echo "runner=yarn" >> $GITHUB_OUTPUT
+            echo "lock_file_path=WebApp/yarn.lock" >> $GITHUB_OUTPUT
             exit 0
           elif [ -f "${{ github.workspace }}/WebApp/pnpm-lock.yaml" ]; then
             echo "manager=pnpm" >> $GITHUB_OUTPUT
             echo "command=install --no-frozen-lockfile" >> $GITHUB_OUTPUT
             echo "runner=pnpm" >> $GITHUB_OUTPUT
+            echo "lock_file_path=WebApp/pnpm-lock.yaml" >> $GITHUB_OUTPUT
             exit 0
           elif [ -f "${{ github.workspace }}/WebApp/package.json" ]; then
             echo "manager=npm" >> $GITHUB_OUTPUT
             echo "command=ci" >> $GITHUB_OUTPUT
             echo "runner=npx --no-install" >> $GITHUB_OUTPUT
+            echo "lock_file_path=WebApp/package-lock.json" >> $GITHUB_OUTPUT
             exit 0
           else
             echo "Unable to determine package manager"
@@ -58,6 +61,7 @@ jobs:
         with:
           node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
+          cache-dependency-path: ${{ steps.detect-package-manager.outputs.lock_file_path }}
       - name: Setup pnpm
         if: steps.detect-package-manager.outputs.manager == 'pnpm'
         uses: pnpm/action-setup@v3
