@@ -61,7 +61,6 @@ jobs:
         with:
           node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
-          cache-dependency-path: ${{ steps.detect-package-manager.outputs.lock_file_path }}
           working-directory: WebApp
       - name: Setup pnpm
         if: steps.detect-package-manager.outputs.manager == 'pnpm'
