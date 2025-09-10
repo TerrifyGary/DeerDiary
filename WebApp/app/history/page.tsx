@@ -371,23 +371,27 @@ export default function HistoryPage() {
                   const todayHighlight = isToday(day)
                   const isSelected = selectedDate === dateStr
 
-                  let dayClasses = "p-3 h-16 relative text-lg font-medium"
-
-                  if (isSelected) {
-                    dayClasses += isDarkMode ? " ring-2 ring-blue-400 bg-blue-400/30" : " ring-2 ring-pink-400 bg-pink-200"
-                  } else if (todayHighlight) {
-                    dayClasses += isDarkMode ? " ring-2 ring-green-400 bg-green-400/20" : " ring-2 ring-yellow-500 bg-yellow-100"
-                  } else if (hasEntry) {
-                    dayClasses += isDarkMode ? " hover:bg-secondary/30" : " hover:bg-pink-50 hover:text-gray-900"
-                  } else {
-                    dayClasses += isDarkMode ? " hover:bg-white/10" : " hover:bg-yellow-50 hover:text-gray-900"
-                  }
-
                   return (
                     <Button
                       key={day}
                       variant="ghost"
-                      className={dayClasses}
+                      className={`p-3 h-16 relative text-lg font-medium ${
+                        isSelected
+                          ? isDarkMode
+                            ? "ring-2 ring-blue-400 bg-blue-400/30"
+                            : "ring-2 ring-pink-400 bg-pink-200"
+                          : todayHighlight
+                            ? isDarkMode
+                              ? "ring-2 ring-green-400 bg-green-400/20"
+                              : "ring-2 ring-yellow-500 bg-yellow-100"
+                            : hasEntry
+                              ? isDarkMode
+                                ? "hover:bg-secondary/30"
+                                : "hover:bg-pink-50 hover:text-gray-900"
+                              : isDarkMode
+                                ? "hover:bg-white/10"
+                                : "hover:bg-yellow-50 hover:text-gray-900"
+                      }`}
                       onClick={() => {
                         console.log("[v0] Calendar day clicked:", day, "Has entry:", hasEntry)
                         setSelectedDate(dateStr)
